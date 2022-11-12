@@ -1,9 +1,9 @@
-package service;
+package pte.progmodbeadando.service;
 
-import dto.UpdateUserDto;
-import model.User;
+import pte.progmodbeadando.dto.UpdateUserDto;
+import pte.progmodbeadando.model.User;
 import org.springframework.stereotype.Service;
-import repository.UserRepository;
+import pte.progmodbeadando.repository.UserRepository;
 
 import javax.transaction.Transactional;
 import java.util.List;
@@ -35,8 +35,8 @@ public class UserService {
         }
     }
 
-    public Optional<User> getUser(User newUser){
-       return getUserById(newUser.getId());
+    public Optional<User> getUser(Integer id){
+       return getUserById(id);
     }
     @Transactional
     public User updateUser(User newUser){

@@ -1,11 +1,11 @@
-package controler;
+package pte.progmodbeadando.controler;
 
-import dto.UpdateUserDto;
-import model.User;
+import pte.progmodbeadando.dto.UpdateUserDto;
+import pte.progmodbeadando.model.User;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import service.UserService;
+import pte.progmodbeadando.service.UserService;
 
 import javax.validation.Valid;
 import java.util.Optional;
@@ -19,9 +19,9 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping
-    public ResponseEntity<Optional<User>> getUser(User newUser){
-        Optional<User> user = userService.getUser(newUser);
+    @GetMapping(path = "/{id}")
+    public ResponseEntity<Optional<User>> getUser(@PathVariable Integer id){
+        Optional<User> user = userService.getUser(id);
         return ResponseEntity.ok(user);
     }
 

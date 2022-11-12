@@ -1,4 +1,4 @@
-package dto;
+package pte.progmodbeadando.dto;
 
 import lombok.Getter;
 import lombok.Setter;

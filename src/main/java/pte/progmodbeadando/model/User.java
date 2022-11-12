@@ -1,9 +1,10 @@
-package model;
+package pte.progmodbeadando.model;
 
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
+import org.hibernate.validator.constraints.UniqueElements;
 
 import javax.persistence.*;
 
@@ -23,8 +24,6 @@ public class User {
 
 
     private String password;
-
-    private int age;
 
     private String email;
 
@@ -52,14 +51,6 @@ public class User {
         this.password = password;
     }
 
-    public int getAge() {
-        return age;
-    }
-
-    public void setAge(int age) {
-        this.age = age;
-    }
-
     public String getEmail() {
         return email;
     }
@@ -74,7 +65,6 @@ public class User {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", password='" + password + '\'' +
-                ", age=" + age +
                 ", email='" + email + '\'' +
                 '}';
     }
