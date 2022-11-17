@@ -1,5 +1,7 @@
 package pte.progmodbeadando.service;
 
+import pte.progmodbeadando.dto.AuthorizeUserDto;
+import pte.progmodbeadando.dto.CreateUserDto;
 import pte.progmodbeadando.dto.UpdateUserDto;
 import pte.progmodbeadando.model.User;
 import org.springframework.stereotype.Service;
@@ -18,16 +20,17 @@ public class UserService {
         this.userRepository = userRepository;
     }
     @Transactional
-    public boolean createUser(UpdateUserDto newUser){
-        checkIfEmailUnique(newUser.getEmail());
+    public boolean createUser(CreateUserDto createUserDto){
+        checkIfEmailUnique(createUserDto.getEmail());
         User user = User.builder()
-                .password(newUser.getPassword())
-                .email(newUser.getEmail())
-                .name(newUser.getName())
+                .password(createUserDto.getPassword())
+                .email(createUserDto.getEmail())
+                .name(createUserDto.getName())
                 .build();
         userRepository.save(user);
         return true;
     }
+
 
     public void checkIfEmailUnique(String email){
         if (userRepository.existsByEmail(email)){
@@ -39,14 +42,19 @@ public class UserService {
        return getUserById(id);
     }
     @Transactional
-    public User updateUser(User newUser){
-        User user = userRepository.save(newUser);
+    public User updateUser(UpdateUserDto updateUserDto){
+        User user = User.builder()
+            .password(updateUserDto.getPassword())
+            .email(updateUserDto.getEmail())
+            .name(updateUserDto.getName())
+            .build();
+        userRepository.save(user);
         return user;
     }
 
     @Transactional
-    public boolean deleteUser(User newUser){
-        userRepository.deleteById(newUser.getId());
+    public boolean deleteUser(Integer id){
+        userRepository.deleteById(id);
         return true;
     }
 
@@ -58,18 +66,18 @@ public class UserService {
         return userRepository.findByEmail(email);
     }
 
-    public Optional<User> verifyUser(String email, String password){
-        Optional<User> user = null;
+    public User verifyUser(AuthorizeUserDto authorizeUserDto){
+        User user = null;
         for (int i = 0; i < findAll().size(); i++) {
 
             String tempEmail = findAll().get(i).getEmail();
             String tempPassword = findAll().get(i).getPassword();
             Integer id = findAll().get(i).getId();
 
-            if (tempEmail.equals(email) && tempPassword.equals(password)) {
+            if (tempEmail.equals(authorizeUserDto.getEmail()) && tempPassword.equals(authorizeUserDto.getPassword())) {
 
-                 user = userRepository.findById(id);
-
+                user = userRepository.findById(id).orElseThrow();
+                
                 return user;
             }
         }

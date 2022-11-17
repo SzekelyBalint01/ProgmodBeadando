@@ -1,8 +1,9 @@
 package pte.progmodbeadando.controler;
 
+import org.springframework.http.MediaType;
+import pte.progmodbeadando.dto.CreateUserDto;
 import pte.progmodbeadando.dto.UpdateUserDto;
 import pte.progmodbeadando.model.User;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pte.progmodbeadando.service.UserService;
@@ -25,21 +26,21 @@ public class UserController {
         return ResponseEntity.ok(user);
     }
 
-    @PostMapping(produces = "application/json", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Boolean> loginUser(@RequestBody @Valid UpdateUserDto updateUserDto){
-        boolean isCreated = userService.createUser(updateUserDto);
+    @PostMapping
+    public ResponseEntity<Boolean> registerUser(@RequestBody CreateUserDto createUserDto){
+        boolean isCreated = userService.createUser(createUserDto);
         return ResponseEntity.ok(isCreated);
     }
 
-    @DeleteMapping
-    public ResponseEntity<Boolean> deleteUser(User newUser){
-        boolean user = userService.deleteUser(newUser);
+    @DeleteMapping(path ="/{id}" )
+    public ResponseEntity<Boolean> deleteUser(@PathVariable Integer id){
+        boolean user = userService.deleteUser(id);
         return ResponseEntity.ok(user);
     }
 
     @PutMapping
-    public ResponseEntity<User> updateUser(User newUser){
-        User user = userService.updateUser(newUser);
+    public ResponseEntity<User> updateUser(UpdateUserDto updateUserDto){
+        User user = userService.updateUser(updateUserDto);
         return ResponseEntity.ok(user);
     }
 }
